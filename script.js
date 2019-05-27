@@ -95,7 +95,19 @@ const animateStep = (timestamp) => {
   }
   const progress = (timestamp - startTime) / totalTime
 
-  circleElement.setAttribute("transform", "translate("+(nodeArray[(nodeWinnerIndex+1)%3].x-nodeArray[nodeWinnerIndex].x)*100*progress +", "+ (nodeArray[(nodeWinnerIndex+1)%3].y-nodeArray[nodeWinnerIndex].y)*100*progress +")")
+  connectionArray.map((connection) => {
+    if (nodeArray[nodeWinnerIndex] === connection[0]) {
+      console.log("Moving from 0!", nodeArray[nodeWinnerIndex] === connection[0])
+      console.log(connection[0])
+      circleElement.setAttribute("transform", "translate("+(connection[1].x-connection[0].x)*100*progress +", "+ (connection[1].y-connection[0].y)*100*progress +")")
+    }
+    if (nodeArray[nodeWinnerIndex] === connection[1]) {
+      console.log("Moving from 1!", nodeArray[nodeWinnerIndex] === connection[1])
+      console.log(connection[1])
+      circleElement.setAttribute("transform", "translate("+(connection[0].x-connection[1].x)*100*progress +", "+ (connection[0].y-connection[1].y)*100*progress +")")
+    }
+  })
+
   if (progress < 1) {
     window.requestAnimationFrame(animateStep)
   }
